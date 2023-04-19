@@ -1,0 +1,28 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.11-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'lk.homies'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.itextpdf:itextpdf:5.5.13.2'
+	// https://mvnrepository.com/artifact/com.itextpdf/itext7-core
+//	implementation group: 'com.itextpdf', name: 'itext7-core', version: '7.2.5', ext: 'pom'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
