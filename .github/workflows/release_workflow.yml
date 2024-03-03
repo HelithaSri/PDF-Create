@@ -46,6 +46,14 @@ jobs:
           git tag -a "v${{ env.RUN_NUMBER }}" -m "Release v${{ env.RUN_NUMBER }}"
           git push origin "v${{ env.RUN_NUMBER }}"
 
+      - name: Generate Release Notes
+        if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+        id: generate_release_notes
+        uses: release-drafter/release-drafter@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-path: .github/release-drafter.yml  # Adjust the path as needed
+
       - name: Create Release (conditional execution based on event)
         if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         id: create_release
@@ -53,6 +61,7 @@ jobs:
         with:
           files: ./build/libs/*  # Adjust the path to your artifacts
           tag_name: "v${{ env.RUN_NUMBER }}"  # Ensure a tag is associated with the release
+          body: ${{ steps.generate_release_notes.outputs.body }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JAVA_HOME: /opt/hostedtoolcache/Java_Adopt_jdk/11.0.22-7/x64
