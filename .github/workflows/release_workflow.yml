@@ -49,7 +49,7 @@ jobs:
       - name: Create Release (conditional execution based on event)
         if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v${{ env.RUN_NUMBER }}
         with:
           files: ./build/libs/*  # Adjust the path to your artifacts
         env:
