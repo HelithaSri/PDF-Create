@@ -49,9 +49,14 @@ jobs:
       - name: Create Release (conditional execution based on event)
         if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
         id: create_release
-        uses: softprops/action-gh-release@v${{ env.RUN_NUMBER }}
+        uses: softprops/action-gh-release@v1
         with:
           files: ./build/libs/*  # Adjust the path to your artifacts
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.create_tag.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JAVA_HOME: /opt/hostedtoolcache/Java_Adopt_jdk/11.0.22-7/x64
+          JAVA_HOME_11_X64: /opt/hostedtoolcache/Java_Adopt_jdk/11.0.22-7/x64
+          RUN_NUMBER: ${{ github.run_number }}
           
