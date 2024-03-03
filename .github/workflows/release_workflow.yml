@@ -51,8 +51,11 @@ jobs:
         id: generate_release_notes
         uses: release-drafter/release-drafter@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           config-path: .github/release-drafter.yml  # Adjust the path as needed
+          version: "v${{ env.RUN_NUMBER }}"
+          publish: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release (conditional execution based on event)
         if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
